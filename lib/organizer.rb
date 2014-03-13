@@ -8,6 +8,26 @@ class Organizer
     @@albums = []
   end
 
+  def Organizer.all
+    @@albums
+  end
+
+  def Organizer.search(input)
+    Organizer.all.select do |album|
+      album.album == input || album.artist == input
+    end
+  end
+
+  def Organizer.artist_albums(artist)
+    titles = []
+    Organizer.all.each do |album|
+      if album.artist == artist
+        titles << album.album
+      end
+    end
+      titles
+  end
+
   def initialize(attributes)
     @album = attributes[:album]
     @artist = attributes[:artist]
@@ -17,12 +37,4 @@ class Organizer
   def save
     @@albums << self
   end
-
-  def Organizer.all
-    @@albums
-  end
-
 end
-
-
-
