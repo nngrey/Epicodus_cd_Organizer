@@ -1,5 +1,6 @@
 require 'rspec'
-require "organizer"
+require 'album'
+require 'artist'
 
 describe Organizer do
   before do

@@ -1,4 +1,5 @@
-require './lib/organizer'
+require './lib/album'
+require './lib/artist'
 require 'pry'
 
 system "clear"
@@ -29,18 +30,18 @@ end
 
 def new_album
     puts "\nPlease enter the name of the Album: "
-    new_album = gets.chomp
+    new_title = gets.chomp
     puts "\nPlease enter the name of the Artist: "
     new_artist = gets.chomp
-    Organizer.new({ :album => new_album, :artist => new_artist })
-    puts "\n#{new_album} by #{new_artist} has been added!"
+    Album.new({ :title => new_title, :name => new_artist })
+    puts "\n#{new_title} by #{new_artist} has been added!"
     main_menu
   end
 
 def list_albums
   puts "\n"
-   Organizer.all.each do |album|
-    puts album.album + " by " + album.artist
+   Album.all.each do |album|
+    puts album.title + " by " + album.artist.name
   end
   main_menu
 end
@@ -48,14 +49,14 @@ end
 def list_artists
   artists = []
   puts "\n"
-  Organizer.all.map do |album|
-    artists <<  album.artist
+  Album.all.map do |album|
+    artists <<  album.artist.name
   end
   artists.uniq!
   artists.map.with_index { |artist, index| puts (index + 1).to_s + ". " + artist }
   puts "Enter the number of the Artist to see their Albums"
   artist_number = gets.chomp.to_i
-  Organizer.artist_albums(artists[artist_number - 1]).each do |title|
+  Album.artist_albums(artists[artist_number - 1]).each do |title|
     puts title
   end
   main_menu
@@ -65,10 +66,10 @@ def search
   puts "\n"
   puts "Enter the name of the Album or Artist you are searching for"
   search_input = gets.chomp
-  results = Organizer.search(search_input)
+  results = Album.search(search_input)
   puts "\n"
   results.each do |result|
-    puts result.album + " by " + result.artist
+    puts result.title + " by " + result.artist.name
   end
   main_menu
 end
